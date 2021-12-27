@@ -35,34 +35,59 @@ var decrypt= CryptoJS.AES.decrypt(encrypt, CryptoJS.enc.Utf8.parse(aseKey), {
 }).toString(CryptoJS.enc.Utf8);
 var anas = JSON.parse(decrypt) 
 var colors = ["#BF402C", "#F09800", "#752A5E", "#B77796", "#6B4D6B", "#5b8c4e"]
-
+var id = -1
 var tem_anas = [];
+var now_ana = []
 window.onload = shuffle;
 
 function shuffle() {
-  tem_anas = anas.slice();
+  var len = anas.length
+  console.log(len)
+  for(var i=0;i<len;i++){
+    tem_anas.push(i)
+  }
   tem_anas.sort(function(a, b) { return Math.random() - 0.5; });
-  randomAna();
+  
+  if(window.location.href.indexOf('?')!=-1){
+    randomColor()
+    var urlParam = decodeURI(window.location.href.split("?")[1])
+    id = Number(urlParam.split("id=")[1].split("&")[0]);
+    if(!isNaN(id) && id<len){
+      now_ana = anas[id]
+      updateText()
+    }
+  }else{
+    randomAna();
+  }
+  
+  
 }
 
 function randomAna() {
   if (tem_anas.length > 0) {
-    let now_ana = tem_anas.pop();
-    document.getElementById("ana_text").innerHTML = now_ana[0].split('\n').join('<br><br><i class="iconfont icon-quotation"></i>');
-    document.getElementById('ana_from').innerHTML = now_ana[1];
-    document.getElementById('share_qq').href =
-      "http://connect.qq.com/widget/shareqq/index.html?url=https://melsana.vercel.app&sharesource=qzone&title=今日语录&pics=https://tse2-mm.cn.bing.net/th/id/OIP-C.XuHVlPN-uO-RgCENmEFxIwAAAA?pid=ImgDet&rs=1&summary=【导师每日语】" +
-      now_ana[0];
-    document.getElementById('share_weibo').href =
-      "https://service.weibo.com/share/share.php?url=https://melsana.vercel.app&title=【今日语录】" +
-      now_ana[0].substr(0, 122) +
-      "&pic=https://tse2-mm.cn.bing.net/th/id/OIP-C.XuHVlPN-uO-RgCENmEFxIwAAAA?pid=ImgDet&rs=1&appkey=63777731&display=0";
+    id = tem_anas.pop();
+    now_ana = anas[id]
+    updateText()
   } else {
-    alert("内容循环完毕！想看更多请读选集、全集！");
+    alert("内容循环完毕！想看更多请读选集、全集等！");
     shuffle();
     return;
   }
-  let color_index = Math.floor(Math.random() * 6);
+  randomColor()
+}
+
+function updateText() {
+  document.getElementById("ana_text").innerHTML = now_ana[0].split('\n').join('<br><br>');
+    document.getElementById('ana_from').innerHTML = now_ana[1];
+    document.getElementById('share_qq').href =
+      `http://connect.qq.com/widget/shareqq/index.html?url=https://melsana.vercel.app?id=${id}&sharesource=qzone&title=今日语录&pics=https://tse2-mm.cn.bing.net/th/id/OIP-C.XuHVlPN-uO-RgCENmEFxIwAAAA?pid=ImgDet&rs=1&summary=【导师每日语】${now_ana[0]}（${now_ana[1]}）` 
+      ;
+    document.getElementById('share_weibo').href =
+      `https://service.weibo.com/share/share.php?url=https://melsana.vercel.app?id=${id}&title=【今日语录】${now_ana[0].substr(0, 115)}&pic=https://tse2-mm.cn.bing.net/th/id/OIP-C.XuHVlPN-uO-RgCENmEFxIwAAAA?pid=ImgDet&rs=1&appkey=63777731&display=0`;
+}
+
+function randomColor(){
+  var color_index = Math.floor(Math.random() * 6);
   document.body.style.backgroundColor = colors[color_index];
   document.getElementById('random').style.backgroundColor = colors[color_index];
   document.getElementById('ana_content').style.color = colors[color_index];
@@ -71,8 +96,9 @@ function randomAna() {
   document.getElementById("share_weibo").style.backgroundColor = colors[
     color_index];
   document.getElementById("ana_box").style.backgroundColor = "#ffffff";
-
 }
+
+
 </script>
 
 </html>
