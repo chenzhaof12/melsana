@@ -1,0 +1,54 @@
+body{
+  font-size:100%;
+}
+#ana_box{
+  overflow: hidden;
+  backgroud-color:#ffffff;
+  border-radius: 1rem;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:10%;
+  min-width:20rem;
+  max-width:50rem;
+  min-height:10rem;
+}
+#ana_content{
+  margin:2rem;
+}
+#ana_text{
+  font-size:1.5rem;
+  text-align:left;
+  font-family:楷体,Sans-serif;
+}
+#ana_from{
+  text-align:right;
+  font-size:1.2rem;
+  margin-left:5rem;
+  font-family:楷体,Sans-serif;
+}
+#share_qq{
+  float:left;
+  color:white;
+  margin-left:30px;
+  padding: 8px;
+  border-radius:5px;
+}
+#share_weibo{
+  float:left;
+  color:white;
+  margin-left:30px;
+  padding: 8px;
+  border-radius:5px;
+}
+#random{
+  float: right;
+  border:none;
+  border-radius:5px;
+  color: white;
+  font-size:1.2rem;
+  padding: 12px 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  font-family:幼圆,Sans-serif;
+  cursor: pointer;
+}

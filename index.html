@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="cn">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>选一条自己喜欢的语录吧</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="iconfont.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script type="text/javascript" src="data.js"></script>
+</head>
+
+<body>
+  <div id="ana_box" class="container-fluid">
+    <div id="ana_content">
+      <i class="iconfont icon-quotation" ></i>
+      <b id="ana_text"></b>
+      <p id="ana_from"></p>
+    </div>
+    <div>
+      <a target="_blank" href="" id="share_qq"><i class="iconfont icon-QQ"></i></a>
+      <a target="_blank" href="" id="share_weibo"><i class="iconfont icon-weibo"></i></a>
+      <button id="random" onclick="randomAna()">换一句</button>
+    </div>
+  </div>
+</body>
+
+<script type="text/javascript">
+var aseKey = "re1jw2d3" 
+var decrypt= CryptoJS.AES.decrypt(encrypt, CryptoJS.enc.Utf8.parse(aseKey), {
+  mode: CryptoJS.mode.ECB,
+  padding: CryptoJS.pad.Pkcs7
+}).toString(CryptoJS.enc.Utf8);
+var anas = JSON.parse(decrypt) 
+var colors = ["#BF402C", "#F09800", "#752A5E", "#B77796", "#6B4D6B", "#5b8c4e"]
+
+var tem_anas = [];
+window.onload = shuffle;
+
+function shuffle() {
+  tem_anas = anas.slice();
+  tem_anas.sort(function(a, b) { return Math.random() - 0.5; });
+  randomAna();
+}
+
+function randomAna() {
+  if (tem_anas.length > 0) {
+    let now_ana = tem_anas.pop();
+    document.getElementById("ana_text").innerHTML = now_ana[0].split('\n').join('<br><br><i class="iconfont icon-quotation"></i>');
+    document.getElementById('ana_from').innerHTML = now_ana[1];
+    document.getElementById('share_qq').href =
+      "http://connect.qq.com/widget/shareqq/index.html?url=https://melsana.vercel.app&sharesource=qzone&title=今日语录&pics=https://tse2-mm.cn.bing.net/th/id/OIP-C.XuHVlPN-uO-RgCENmEFxIwAAAA?pid=ImgDet&rs=1&summary=【导师每日语】" +
+      now_ana[0];
+    document.getElementById('share_weibo').href =
+      "https://service.weibo.com/share/share.php?url=https://melsana.vercel.app&title=【今日语录】" +
+      now_ana[0].substr(0, 122) +
+      "&pic=https://tse2-mm.cn.bing.net/th/id/OIP-C.XuHVlPN-uO-RgCENmEFxIwAAAA?pid=ImgDet&rs=1&appkey=63777731&display=0";
+  } else {
+    alert("内容循环完毕！想看更多请读选集、全集！");
+    shuffle();
+    return;
+  }
+  let color_index = Math.floor(Math.random() * 6);
+  document.body.style.backgroundColor = colors[color_index];
+  document.getElementById('random').style.backgroundColor = colors[color_index];
+  document.getElementById('ana_content').style.color = colors[color_index];
+  document.getElementById("share_qq").style.backgroundColor = colors[
+    color_index];
+  document.getElementById("share_weibo").style.backgroundColor = colors[
+    color_index];
+  document.getElementById("ana_box").style.backgroundColor = "#ffffff";
+
+}
+</script>
+
+</html>
