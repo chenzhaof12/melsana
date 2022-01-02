@@ -48,7 +48,7 @@ function shuffle() {
   }
   tem_anas.sort(function(a, b) { return Math.random() - 0.5; });
   
-  if(window.location.href.indexOf('?')!=-1){
+  if(window.location.href.indexOf('?')!=-1&&window.location.href.indexOf('id')!=-1){
     randomColor()
     var urlParam = decodeURI(window.location.href.split("?")[1])
     id = Number(urlParam.split("id=")[1].split("&")[0]);
